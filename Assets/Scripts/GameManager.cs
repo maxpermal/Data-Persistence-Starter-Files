@@ -2,27 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 [System.Serializable]
-public class ScoreEntry
+public struct ScoreEntry
 {
     public int bestPoints;
-    public string playerName;
+    public string bestPlayerName;
 }
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [SerializeField] private int bestPoints = 0;
-    [SerializeField] private string bestPlayerName = "";
     [SerializeField] private ScoreEntry scoreEntry;
-
     [SerializeField] private string playeName = "";
+    
     public string PlayerName => playeName;
+
+    [SerializeField] string filenameCfg = "saveDataBreaker.json";
 
     void Awake()
     {
@@ -35,14 +36,15 @@ public class GameManager : MonoBehaviour
         // end of new code
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        LoadData();
     }
 
     public void UpdateBestScore(int score)
     {
-        if(bestPoints <score)
+        if(scoreEntry.bestPoints <score)
         {
-            bestPoints = score;
-            bestPlayerName = playeName;
+            scoreEntry.bestPoints = score;
+            scoreEntry.bestPlayerName = playeName;
         }
     }
 
@@ -62,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     public string GetBestScore()
     {
-        return $"Best Score : {bestPlayerName} : {bestPoints}";
+        return $"Best Score : {scoreEntry.bestPlayerName} : {scoreEntry.bestPoints}";
     }
 
     public void SetPlayerName(string name)
@@ -70,13 +72,23 @@ public class GameManager : MonoBehaviour
         playeName = name;
     }
 
-    public bool SaveData()
+    public void SaveData()
     {
-        return true;
+        ScoreEntry data = scoreEntry;
+        string json = JsonUtility.ToJson(data);
+        string path = Application.persistentDataPath + filenameCfg;
+        File.WriteAllText(path, json);
     }
 
     public bool LoadData()
     {
-        return true;
+        string path = Application.persistentDataPath + filenameCfg;
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            scoreEntry = JsonUtility.FromJson<ScoreEntry>(json);
+            return true;
+        }
+        return false;
     }
 }

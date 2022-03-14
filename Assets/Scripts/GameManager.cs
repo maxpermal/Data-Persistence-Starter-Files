@@ -20,10 +20,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private ScoreEntry scoreEntry;
     [SerializeField] private string playeName = "";
-    
+
     public string PlayerName => playeName;
 
-    [SerializeField] string filenameCfg = "saveDataBreaker.json";
+    [SerializeField] string filenameCfg = "/saveDataBreaker.json";
 
     void Awake()
     {
@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
     public bool LoadData()
     {
         string path = Application.persistentDataPath + filenameCfg;
+        Debug.Log(path);
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);

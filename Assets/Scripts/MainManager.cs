@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
-    public static MainManager instance;
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
@@ -14,15 +13,13 @@ public class MainManager : MonoBehaviour
     public Text BestScoreText;
     public Text ScoreText;
     public GameObject GameOverText;
-    public string playerName;
-    private int m_bestPoints;
+    [SerializeField] private string playerName;
 
     private bool m_Started = false;
     private int m_Points;
     
     private bool m_GameOver = false;
 
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -41,12 +38,22 @@ public class MainManager : MonoBehaviour
             }
         }
 
+        UpdatePlayerName();
         UpdateBestScore();
+        m_Points = 0;
+        m_GameOver = false;
+        m_Started = false;
+    }
+
+    private void UpdatePlayerName()
+    {
+        playerName = GameManager.Instance.PlayerName;
     }
 
     private void UpdateBestScore()
     {
-        BestScoreText.text = $"Best Score : {playerName} : {m_bestPoints}";
+        GameManager.Instance.UpdateBestScore(m_Points);
+        BestScoreText.text = GameManager.Instance.GetBestScore();
     }
 
     private void Update()
@@ -70,6 +77,10 @@ public class MainManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
+            }
         }
     }
 
@@ -77,11 +88,7 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
-        if(m_bestPoints<m_Points)
-        {
-            m_bestPoints = m_Points;
-            UpdateBestScore();
-        }
+        UpdateBestScore();
     }
 
     public void GameOver()

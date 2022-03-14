@@ -7,7 +7,8 @@ using UnityEngine.Events;
 public class Brick : MonoBehaviour
 {
     public UnityEvent<int> onDestroyed;
-    
+    private BoxCollider collider;
+
     public int PointValue;
 
     void Start()
@@ -31,13 +32,15 @@ public class Brick : MonoBehaviour
                 break;
         }
         renderer.SetPropertyBlock(block);
+        collider = GetComponent<BoxCollider>();
     }
 
     private void OnCollisionEnter(Collision other)
     {
         onDestroyed.Invoke(PointValue);
-        
+
         //slight delay to be sure the ball have time to bounce
-        Destroy(gameObject, 0.2f);
+        collider.enabled = false;
+        Destroy(gameObject, 0.1f);
     }
 }

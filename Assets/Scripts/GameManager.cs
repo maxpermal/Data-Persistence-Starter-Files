@@ -6,17 +6,23 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 
+[System.Serializable]
+public class ScoreEntry
+{
+    public int bestPoints;
+    public string playerName;
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     [SerializeField] private int bestPoints = 0;
-    public int BestPoints { get { return bestPoints; } set { bestPoints = value; } }
-    [SerializeField] private string bestplayername = "";
-    public string BestPlayerName { get { return bestplayername; } set { bestplayername = value; } }
+    [SerializeField] private string bestPlayerName = "";
+    [SerializeField] private ScoreEntry scoreEntry;
 
-    [SerializeField] private string playername = "";
-    public string PlayerName { get { return playername; } set { playername = value; } }
+    [SerializeField] private string playeName = "";
+    public string PlayerName => playeName;
 
     void Awake()
     {
@@ -33,23 +39,11 @@ public class GameManager : MonoBehaviour
 
     public void UpdateBestScore(int score)
     {
-        if(BestPoints<score)
+        if(bestPoints <score)
         {
-            BestPoints = score;
-            BestPlayerName = playername;
+            bestPoints = score;
+            bestPlayerName = playeName;
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void StartGame()
@@ -68,11 +62,21 @@ public class GameManager : MonoBehaviour
 
     public string GetBestScore()
     {
-        return $"Best Score : {BestPlayerName} : {BestPoints}";
+        return $"Best Score : {bestPlayerName} : {bestPoints}";
     }
 
-    public void SetCurrentPlayerName(string name)
+    public void SetPlayerName(string name)
     {
-        playername = name;
+        playeName = name;
+    }
+
+    public bool SaveData()
+    {
+        return true;
+    }
+
+    public bool LoadData()
+    {
+        return true;
     }
 }

@@ -13,7 +13,6 @@ public class MainManager : MonoBehaviour
     public Text BestScoreText;
     public Text ScoreText;
     public GameObject GameOverText;
-    [SerializeField] private string playerName;
 
     private bool m_Started = false;
     private int m_Points;
@@ -38,16 +37,10 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        UpdatePlayerName();
-        UpdateBestScore();
+        AddPoint(0);
         m_Points = 0;
         m_GameOver = false;
         m_Started = false;
-    }
-
-    private void UpdatePlayerName()
-    {
-        playerName = GameManager.Instance.PlayerName;
     }
 
     private void UpdateBestScore()
@@ -82,12 +75,17 @@ public class MainManager : MonoBehaviour
                 SceneManager.LoadScene(0);
             }
         }
+        else if (m_GameOver == false && Input.GetKeyDown(KeyCode.Escape))
+        {
+            m_Started = true;
+            GameOver();
+        }
     }
 
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = $"Player : {GameManager.Instance.PlayerName}, Score : {m_Points}";
         UpdateBestScore();
     }
 

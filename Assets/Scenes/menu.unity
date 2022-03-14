@@ -669,7 +669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameInput: {fileID: 1877452822}
-  playerNameText: {fileID: 1358886789}
+  scoreText: {fileID: 1358886789}
 --- !u!1 &929865942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1622,6 +1622,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3328a3d2b3756da4486b0f1b7cf030ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bestPoints: 0
+  bestplayername: 
+  playername: 
 --- !u!4 &1928335833
 Transform:
   m_ObjectHideFlags: 0

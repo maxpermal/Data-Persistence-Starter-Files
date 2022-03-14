@@ -15,15 +15,9 @@ public class UIHandler : MonoBehaviour
         scoreText.text = GameManager.Instance.GetBestScore();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnSetName()
     {
-        GameManager.Instance.SetCurrentPlayerName(playerNameInput.text);
+        GameManager.Instance.SetPlayerName(playerNameInput.text);
     }
 
     public void OnStartGame()

@@ -1622,9 +1622,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3328a3d2b3756da4486b0f1b7cf030ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bestPoints: 0
-  bestplayername: 
-  playername: 
+  scoreEntry:
+    bestPoints: 0
+    bestPlayerName: 
+  playeName: 
+  filenameCfg: /saveDataBreaker.json
 --- !u!4 &1928335833
 Transform:
   m_ObjectHideFlags: 0
